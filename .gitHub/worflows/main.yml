@@ -1,0 +1,35 @@
+name: Run Application
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  Deploy-API-Server:
+    timeout-minutes: 200
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node_version: 18
+    - name: Deploy API Server
+      run: |
+        cd apps/api
+        npm install --legacy-peer-deps
+        yarn dev
+  Deploy-WEB-Server:
+    timeout-minutes: 200
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node_version: 18
+    - name: Deploy WEB Server
+      run: |
+        cd apps/web
+        npm install --legacy-peer-deps
+        yarn dev
